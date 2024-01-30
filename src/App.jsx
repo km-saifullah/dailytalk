@@ -14,6 +14,10 @@ import Messages from "./pages/messages/Messages";
 import People from "./pages/people/People";
 import Notification from "./pages/notification/Notification";
 import Settings from "./pages/settings/Settings";
+import BlockList from "./pages/blocklist/BlockList";
+import FriendRequest from "./pages/friendrequest/FriendRequest";
+import Friends from "./pages/friends/Friends";
+import Groups from "./pages/groups/Groups";
 
 // All Routes
 const router = createBrowserRouter(
@@ -27,6 +31,10 @@ const router = createBrowserRouter(
         <Route path="/people" element={<People />} />
         <Route path="/notification" element={<Notification />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/blocklist" element={<BlockList />} />
+        <Route path="/friendrequest" element={<FriendRequest />} />
+        <Route path="/friends" element={<Friends />} />
+        <Route path="/groups" element={<Groups />} />
       </Route>
       <Route path="*" element={<NotFound />} />
     </>

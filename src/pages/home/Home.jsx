@@ -1,18 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaBars } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import Image from "../../utils/Image";
 import profileImg from "../../assets/images/profile.png";
 import Chats from "../../components/chats/Chats";
 import Users from "../../components/users/Users";
+import Sidebar from "../../components/sidebar/Sidebar";
 
 const Home = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const handleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
   return (
     <section className="pt-[10px]">
       <div className="container mx-auto">
-        <header className="flex items-center justify-between pb-[20px]">
+        <header className="flex items-center justify-between pb-[20px] relative">
+          {isOpen && <Sidebar handleSidebar={handleSidebar} />}
           <div className="text-primary cursor-pointer">
-            <FaBars className="w-[40px] h-[40px]" />
+            <button onClick={handleSidebar}>
+              <FaBars className="w-[28px] h-[28px]" />
+            </button>
           </div>
           <div className="flex items-center justify-center flex-col gap-y-1">
             <div className="w-[68px] h-[68px] rounded-full bg-textColor">
