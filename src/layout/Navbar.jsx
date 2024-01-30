@@ -8,7 +8,7 @@ import { TbSettings } from "react-icons/tb";
 
 const Navbar = () => {
   return (
-    <nav className="">
+    <nav className="fixed bottom-0 w-full">
       <div className="container mx-auto">
         <ul className="px-[42px] py-4 bg-navbar text-[#ffffff80] flex items-center justify-between rounded-b-[30px]">
           <li>
