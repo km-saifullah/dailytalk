@@ -31,17 +31,17 @@ const Signup = () => {
                 />
                 <input
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
-                  type="text"
+                  type="email"
                   placeholder="Enter Your Email"
                 />
                 <input
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
-                  type="text"
+                  type="password"
                   placeholder="Enter Password"
                 />
                 <input
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
-                  type="text"
+                  type="password"
                   placeholder="Confirm Password"
                 />
               </div>
@@ -69,7 +69,7 @@ const Signup = () => {
             <p className="text-[16px] text-primary leading-[120%]">
               Already have an account?{" "}
               <Link to="/" className="text-textColor font-normal font-roboto">
-                Login
+                Sign In
               </Link>
             </p>
           </div>
