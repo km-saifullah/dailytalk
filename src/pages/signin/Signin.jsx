@@ -1,7 +1,27 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Signin = () => {
+  const [signInData, setSignInData] = useState({
+    email: "",
+    password: "",
+  });
+  // handle form input fields
+  const handleInput = (e) => {
+    const signinInfo = { ...signInData };
+    signinInfo[e.target.name] = e.target.value;
+    setSignInData(signinInfo);
+  };
+
+  // handle signin form
+  const handleSignIn = (e) => {
+    console.log(signInData);
+    setSignInData({
+      email: "",
+      password: "",
+    });
+    e.preventDefault();
+  };
   return (
     <section>
       <div className="container mx-auto">
@@ -22,15 +42,24 @@ const Signin = () => {
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
                   type="email"
                   placeholder="Enter Your Email"
+                  name="email"
+                  value={signInData.email}
+                  onChange={handleInput}
                 />
                 <input
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
                   type="password"
                   placeholder="Enter Password"
+                  name="password"
+                  value={signInData.password}
+                  onChange={handleInput}
                 />
               </div>
               <div className="pt-6">
-                <button className="w-[660px] py-[9px] pl-[33px] bg-primary outline-none border-none rounded-[20px] text-4 font-bold font-nunito text-white hover:bg-[#0000001a] hover:text-primary transition-all duration-300 ease-linear">
+                <button
+                  className="w-[660px] py-[9px] pl-[33px] bg-primary outline-none border-none rounded-[20px] text-4 font-bold font-nunito text-white hover:bg-[#0000001a] hover:text-primary transition-all duration-300 ease-linear"
+                  onClick={handleSignIn}
+                >
                   Sign In
                 </button>
               </div>

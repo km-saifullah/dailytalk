@@ -32,7 +32,9 @@ const Home = () => {
                 />
               </figure>
             </div>
-            <h4>Khaled Saifullah</h4>
+            <h4 className="text-base font-bold font-lato leading-[140%] text-primary">
+              Khaled Saifullah
+            </h4>
           </div>
         </header>
         <div className="pb-[14px] flex items-center justify-center">

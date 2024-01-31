@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { ImBlocked } from "react-icons/im";
 import { AiOutlineHome } from "react-icons/ai";
 import { GiThreeFriends } from "react-icons/gi";
@@ -9,6 +9,10 @@ import { FaUsers } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
 
 const Sidebar = ({ handleSidebar }) => {
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    navigate("/");
+  };
   return (
     <section className="absolute top-[30px] left-0 h-[86vh] w-[200px] bg-[#000000e6] text-white rounded-t-[10px]">
       <div className="flex justify-between flex-col gap-[40px]">
@@ -56,7 +60,10 @@ const Sidebar = ({ handleSidebar }) => {
         </ul>
         <div className="px-[8px] py-[0px] h-[10vh]">
           <div className="flex items-center justify-center gap-[15px]">
-            <button className="flex items-center gap-[10px]">
+            <button
+              className="flex items-center gap-[10px]"
+              onClick={handleLogout}
+            >
               <AiOutlineLogout className="h-[30px] w-[30px]" /> Log Out
             </button>
           </div>

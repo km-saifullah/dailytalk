@@ -1,7 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Signup = () => {
+  const [registerData, setRegisterData] = useState({
+    fullname: "",
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  // handle form input fields
+  const handleInput = (e) => {
+    const registerInfo = { ...registerData };
+    registerInfo[e.target.name] = e.target.value;
+    setRegisterData(registerInfo);
+  };
+
+  // handle signup form
+  const handleSignUp = (e) => {
+    console.log(registerData);
+    setRegisterData({
+      fullname: "",
+      username: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+    e.preventDefault();
+  };
   return (
     <section>
       <div className="container mx-auto">
@@ -23,26 +49,41 @@ const Signup = () => {
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
                   type="text"
                   placeholder="Enter Your Name"
+                  name="fullname"
+                  value={registerData.fullname}
+                  onChange={handleInput}
                 />
                 <input
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
                   type="text"
                   placeholder="Enter a Username"
+                  name="username"
+                  value={registerData.username}
+                  onChange={handleInput}
                 />
                 <input
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
                   type="email"
                   placeholder="Enter Your Email"
+                  name="email"
+                  value={registerData.email}
+                  onChange={handleInput}
                 />
                 <input
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
                   type="password"
                   placeholder="Enter Password"
+                  name="password"
+                  value={registerData.password}
+                  onChange={handleInput}
                 />
                 <input
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
                   type="password"
                   placeholder="Confirm Password"
+                  name="confirmPassword"
+                  value={registerData.confirmPassword}
+                  onChange={handleInput}
                 />
               </div>
 
@@ -61,7 +102,10 @@ const Signup = () => {
                 </label>
               </div>
               <div>
-                <button className="w-[660px] py-[9px] pl-[33px] bg-primary outline-none border-none rounded-[20px] text-4 font-bold font-nunito text-white hover:bg-[#0000001a] hover:text-primary transition-all duration-300 ease-linear">
+                <button
+                  className="w-[660px] py-[9px] pl-[33px] bg-primary outline-none border-none rounded-[20px] text-4 font-bold font-nunito text-white hover:bg-[#0000001a] hover:text-primary transition-all duration-300 ease-linear"
+                  onClick={handleSignUp}
+                >
                   Sign Up
                 </button>
               </div>
