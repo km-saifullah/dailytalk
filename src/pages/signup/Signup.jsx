@@ -1,5 +1,11 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import {
+  confirmPasswordValidation,
+  emailValidation,
+  passwordValidation,
+} from "../../validation/Validation";
+import Error from "../../utils/Error";
 
 const Signup = () => {
   const [registerData, setRegisterData] = useState({
@@ -8,6 +14,11 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
+  });
+  const [error, setError] = useState({
+    emailError: "",
+    passwordError: "",
+    confirmPasswordError: "",
   });
   // handle form input fields
   const handleInput = (e) => {
@@ -18,6 +29,19 @@ const Signup = () => {
 
   // handle signup form
   const handleSignUp = (e) => {
+    let mailError = emailValidation(registerData.email);
+    let passError = passwordValidation(registerData.password);
+    let confirmPassError = confirmPasswordValidation(
+      registerData.confirmPassword,
+      registerData.password
+    );
+    setError({
+      ...error,
+      emailError: mailError,
+      passwordError: passError,
+      confirmPasswordError: confirmPassError,
+    });
+    console.log(error);
     console.log(registerData);
     setRegisterData({
       fullname: "",
@@ -69,6 +93,9 @@ const Signup = () => {
                   value={registerData.email}
                   onChange={handleInput}
                 />
+                {error.emailError ? (
+                  <Error errorMsg={error.emailError} />
+                ) : null}
                 <input
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
                   type="password"
@@ -77,6 +104,9 @@ const Signup = () => {
                   value={registerData.password}
                   onChange={handleInput}
                 />
+                {error.passwordError ? (
+                  <Error errorMsg={error.passwordError} />
+                ) : null}
                 <input
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
                   type="password"
@@ -85,6 +115,9 @@ const Signup = () => {
                   value={registerData.confirmPassword}
                   onChange={handleInput}
                 />
+                {error.confirmPasswordError ? (
+                  <Error errorMsg={error.confirmPasswordError} />
+                ) : null}
               </div>
 
               <div className="flex items-center gap-x-[8px] py-[20px]">
