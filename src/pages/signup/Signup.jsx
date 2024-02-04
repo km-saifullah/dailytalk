@@ -1,13 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
   confirmPasswordValidation,
   emailValidation,
   passwordValidation,
 } from "../../validation/Validation";
 import Error from "../../utils/Error";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../db/firebaseConfig";
+import { RotatingLines } from "react-loader-spinner";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Signup = () => {
+  const [isLoaded, setIsLoaded] = useState(false);
   const [registerData, setRegisterData] = useState({
     fullname: "",
     username: "",
@@ -20,6 +26,8 @@ const Signup = () => {
     passwordError: "",
     confirmPasswordError: "",
   });
+  const navigate = useNavigate();
+
   // handle form input fields
   const handleInput = (e) => {
     const registerInfo = { ...registerData };
@@ -30,19 +38,17 @@ const Signup = () => {
   // handle signup form
   const handleSignUp = (e) => {
     let mailError = emailValidation(registerData.email);
-    let passError = passwordValidation(registerData.password);
-    let confirmPassError = confirmPasswordValidation(
-      registerData.confirmPassword,
-      registerData.password
-    );
+    // let passError = passwordValidation(registerData.password);
+    // let confirmPassError = confirmPasswordValidation(
+    //   registerData.confirmPassword,
+    //   registerData.password
+    // );
     setError({
       ...error,
       emailError: mailError,
-      passwordError: passError,
-      confirmPasswordError: confirmPassError,
+      // passwordError: passError,
+      // confirmPasswordError: confirmPassError,
     });
-    console.log(error);
-    console.log(registerData);
     setRegisterData({
       fullname: "",
       username: "",
@@ -50,11 +56,58 @@ const Signup = () => {
       password: "",
       confirmPassword: "",
     });
+
+    // signUp a new user
+    if (!error.emailError) {
+      createUserWithEmailAndPassword(
+        auth,
+        registerData.email,
+        registerData.password
+      )
+        .then((userData) => {
+          setIsLoaded(true);
+          setTimeout(() => {
+            setIsLoaded(false);
+            navigate("/");
+          }, 3000);
+          toast.info("Verification Email Has Been Sent!", {
+            position: "top-right",
+            autoClose: 2000,
+            hideProgressBar: false,
+            closeOnClick: true,
+            pauseOnHover: false,
+            draggable: true,
+            progress: undefined,
+            theme: "light",
+          });
+        })
+        .catch((err) => {
+          let errorCode = err.code;
+          if (errorCode == "auth/email-already-in-use") {
+            setError({
+              emailError: "📧 You have already use this email address!",
+            });
+          }
+        });
+    }
+
     e.preventDefault();
   };
   return (
     <section>
       <div className="container mx-auto">
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss={false}
+          draggable
+          pauseOnHover={false}
+          theme="light"
+        />
         <div className="h-[100vh] flex items-center justify-center flex-col">
           <div>
             <h2 className="text-primary font-robotoFlex text-[35px] leading-[140%] font-semibold text-center">
@@ -104,9 +157,9 @@ const Signup = () => {
                   value={registerData.password}
                   onChange={handleInput}
                 />
-                {error.passwordError ? (
+                {/* {error.passwordError ? (
                   <Error errorMsg={error.passwordError} />
-                ) : null}
+                ) : null} */}
                 <input
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
                   type="password"
@@ -115,9 +168,9 @@ const Signup = () => {
                   value={registerData.confirmPassword}
                   onChange={handleInput}
                 />
-                {error.confirmPasswordError ? (
+                {/* {error.confirmPasswordError ? (
                   <Error errorMsg={error.confirmPasswordError} />
-                ) : null}
+                ) : null} */}
               </div>
 
               <div className="flex items-center gap-x-[8px] py-[20px]">
@@ -135,12 +188,28 @@ const Signup = () => {
                 </label>
               </div>
               <div>
-                <button
-                  className="w-[660px] py-[9px] pl-[33px] bg-primary outline-none border-none rounded-[20px] text-4 font-bold font-nunito text-white hover:bg-[#0000001a] hover:text-primary transition-all duration-300 ease-linear"
-                  onClick={handleSignUp}
-                >
-                  Sign Up
-                </button>
+                {isLoaded ? (
+                  <div className="flex items-center justify-center">
+                    <RotatingLines
+                      visible={true}
+                      height="75"
+                      width="75"
+                      color="grey"
+                      strokeWidth="5"
+                      animationDuration="0.75"
+                      ariaLabel="rotating-lines-loading"
+                      wrapperStyle={{}}
+                      wrapperClass=""
+                    />
+                  </div>
+                ) : (
+                  <button
+                    className="w-[660px] py-[9px] pl-[33px] bg-primary outline-none border-none rounded-[20px] text-4 font-bold font-nunito text-white hover:bg-[#0000001a] hover:text-primary transition-all duration-300 ease-linear"
+                    onClick={handleSignUp}
+                  >
+                    Sign Up
+                  </button>
+                )}
               </div>
             </form>
             <p className="text-[16px] text-primary leading-[120%]">

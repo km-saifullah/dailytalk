@@ -7,10 +7,10 @@ let error = "";
 
 export const emailValidation = (userEmail) => {
   if (!userEmail) {
-    error = "You Forget to Enter Email Address";
+    error = "📧 You Forget to Enter Email Address";
     return error;
   } else if (!emailRegex.test(userEmail)) {
-    error = "Please Enter a Valid Email Address";
+    error = "📧 Please Enter a Valid Email Address";
     return error;
   } else {
     error = false;
