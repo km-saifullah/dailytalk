@@ -6,11 +6,18 @@ import {
   passwordValidation,
 } from "../../validation/Validation";
 import Error from "../../utils/Error";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth } from "../../db/firebaseConfig";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+  updateProfile,
+} from "firebase/auth";
+import { ref, set } from "firebase/database";
+import { auth, db } from "../../db/firebaseConfig";
 import { RotatingLines } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import maleAvatar from "../../assets/images/male_avatar.png";
+import femaleAvatar from "../../assets/images/female_avatar.png";
 
 const Signup = () => {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -20,6 +27,7 @@ const Signup = () => {
     email: "",
     password: "",
     confirmPassword: "",
+    gender: "",
   });
   const [error, setError] = useState({
     emailError: "",
@@ -65,6 +73,21 @@ const Signup = () => {
         registerData.password
       )
         .then((userData) => {
+          sendEmailVerification(auth.currentUser).then(
+            updateProfile(auth.currentUser, {
+              displayName: registerData.fullname,
+              photoURL: `${
+                registerData.gender == "male" ? maleAvatar : femaleAvatar
+              }`,
+            }).then(() => {
+              set(ref(db, "users/" + userData.user.uid), {
+                fullname: userData.user.displayName,
+                username: registerData.username,
+                email: userData.user.email,
+                displayImage: userData.user.photoURL,
+              });
+            })
+          );
           setIsLoaded(true);
           setTimeout(() => {
             setIsLoaded(false);
@@ -72,7 +95,7 @@ const Signup = () => {
           }, 3000);
           toast.info("Verification Email Has Been Sent!", {
             position: "top-right",
-            autoClose: 2000,
+            autoClose: 4000,
             hideProgressBar: false,
             closeOnClick: true,
             pauseOnHover: false,
@@ -90,7 +113,6 @@ const Signup = () => {
           }
         });
     }
-
     e.preventDefault();
   };
   return (
@@ -98,7 +120,7 @@ const Signup = () => {
       <div className="container mx-auto">
         <ToastContainer
           position="top-right"
-          autoClose={2000}
+          autoClose={4000}
           hideProgressBar={false}
           newestOnTop={false}
           closeOnClick
@@ -171,6 +193,29 @@ const Signup = () => {
                 {/* {error.confirmPasswordError ? (
                   <Error errorMsg={error.confirmPasswordError} />
                 ) : null} */}
+              </div>
+              <div className="flex flex-col gap-x-[8px]  py-[20px]">
+                <div>
+                  <h5 className="py-[10px]">Select Gender</h5>
+                </div>
+                <div className="flex gap-x-[10px]">
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="male"
+                    id="male"
+                    onChange={handleInput}
+                  />
+                  <label htmlFor="male">Male</label>
+                  <input
+                    type="radio"
+                    name="gender"
+                    value="female"
+                    id="female"
+                    onChange={handleInput}
+                  />
+                  <label htmlFor="female">Female</label>
+                </div>
               </div>
 
               <div className="flex items-center gap-x-[8px] py-[20px]">

@@ -1,11 +1,19 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { emailValidation } from "../../validation/Validation";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../../db/firebaseConfig";
 
 const Signin = () => {
   const [signInData, setSignInData] = useState({
     email: "",
     password: "",
   });
+  const [error, setError] = useState({
+    emailError: "",
+    password: "",
+  });
+
   // handle form input fields
   const handleInput = (e) => {
     const signinInfo = { ...signInData };
@@ -15,11 +23,22 @@ const Signin = () => {
 
   // handle signin form
   const handleSignIn = (e) => {
-    console.log(signInData);
+    const mailError = emailValidation(signInData.email);
+    setError({ ...error, emailError: mailError });
     setSignInData({
       email: "",
       password: "",
     });
+
+    // signin functionality
+    signInWithEmailAndPassword(auth, signInData.email, signInData.password)
+      .then((userData) => {
+        if(userData.data.emailVerified){
+          
+        }
+      })
+      .catch((err) => {});
+
     e.preventDefault();
   };
   return (
@@ -46,6 +65,9 @@ const Signin = () => {
                   value={signInData.email}
                   onChange={handleInput}
                 />
+                {error.emailError ? (
+                  <Error errorMsg={error.emailError} />
+                ) : null}
                 <input
                   className="w-[660px] py-[9px] pl-[33px] bg-[#0000001a] outline-none border-none rounded-[20px] text-4 font-normal font-nunito text-primary"
                   type="password"
