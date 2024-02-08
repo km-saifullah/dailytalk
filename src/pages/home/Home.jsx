@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaBars } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import Image from "../../utils/Image";
@@ -6,12 +6,26 @@ import profileImg from "../../assets/images/profile.png";
 import Chats from "../../components/chats/Chats";
 import Users from "../../components/users/Users";
 import Sidebar from "../../components/sidebar/Sidebar";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+  const data = useSelector((state) => state.loginuserdata.value);
+  const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+
   const handleSidebar = () => {
     setIsOpen(!isOpen);
   };
+
+  useEffect(() => {
+    if (!data) {
+      navigate("/");
+    } else {
+      navigate("/home");
+    }
+  }, []);
+
   return (
     <section className="pt-[10px]">
       <div className="container mx-auto">
@@ -27,13 +41,13 @@ const Home = () => {
               <figure>
                 <Image
                   className="w-full h-full object-cover"
-                  imgSrc={profileImg}
+                  imgSrc={data && data.photoURL}
                   altText="display image"
                 />
               </figure>
             </div>
             <h4 className="text-base font-bold font-lato leading-[140%] text-primary">
-              Khaled Saifullah
+              {data && data.displayName}
             </h4>
           </div>
         </header>

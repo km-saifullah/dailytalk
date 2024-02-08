@@ -1,10 +1,19 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { emailValidation } from "../../validation/Validation";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
+} from "firebase/auth";
 import { auth } from "../../db/firebaseConfig";
+import { ToastContainer, toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { loginuser } from "../../features/user/userSlice";
 
 const Signin = () => {
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [signInData, setSignInData] = useState({
     email: "",
     password: "",
@@ -33,17 +42,51 @@ const Signin = () => {
     // signin functionality
     signInWithEmailAndPassword(auth, signInData.email, signInData.password)
       .then((userData) => {
-        if(userData.data.emailVerified){
-          
+        if (userData.user.emailVerified) {
+          localStorage.setItem("user", JSON.stringify(userData.user));
+          let d = dispatch(loginuser(userData.user));
+          console.log(d);
+          navigate("/home");
+        } else {
+          signOut(auth).then(() => {
+            toast.error("Please Verify your email", {
+              position: "top-right",
+              autoClose: 3000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: true,
+              progress: undefined,
+              theme: "dark",
+            });
+          });
         }
       })
       .catch((err) => {});
 
+    // signed user data
+    onAuthStateChanged(auth, (currentUser) => {
+      console.log(currentUser);
+    });
     e.preventDefault();
   };
   return (
     <section>
       <div className="container mx-auto">
+        <div>
+          <ToastContainer
+            position="top-right"
+            autoClose={5000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnFocusLoss
+            draggable
+            pauseOnHover
+            theme="dark"
+          />
+        </div>
         <div className="h-[100vh] flex items-center justify-center flex-col">
           <div>
             <h2 className="text-primary font-robotoFlex text-[35px] leading-[140%] font-semibold text-center">
