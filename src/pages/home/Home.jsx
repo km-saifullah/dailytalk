@@ -37,13 +37,16 @@ const Home = () => {
             </button>
           </div>
           <div className="flex items-center justify-center flex-col gap-y-1">
-            <div className="w-[68px] h-[68px] rounded-full bg-textColor">
-              <figure>
-                <Image
+            <div className="w-[68px] h-[68px] rounded-full bg-textColor flex items-center justify-center">
+              <figure className="">
+                {/* <Image
                   className="w-full h-full object-cover"
-                  imgSrc={data && data.photoURL}
+                  // imgSrc={data && data.photoURL}
                   altText="display image"
-                />
+                /> */}
+                <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
+                  {data.displayName[0]}
+                </h1>
               </figure>
             </div>
             <h4 className="text-base font-bold font-lato leading-[140%] text-primary">
