@@ -49,7 +49,7 @@ const Home = () => {
                   altText="display image"
                 /> */}
                 <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
-                  {data.displayName[0]}
+                  {data && data.displayName[0]}
                 </h1>
               </figure>
             </div>

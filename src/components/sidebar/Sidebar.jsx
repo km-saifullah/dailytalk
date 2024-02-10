@@ -14,7 +14,6 @@ import { loginuser } from "../../features/user/userSlice";
 
 const Sidebar = ({ handleSidebar }) => {
   const data = useSelector((state) => state.loginuserdata.value);
-  console.log(data);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   // handle logout

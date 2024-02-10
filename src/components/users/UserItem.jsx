@@ -12,7 +12,6 @@ import { ToastContainer, toast } from "react-toastify";
 const UserItem = ({ status }) => {
   const [userList, setUserList] = useState();
   const data = useSelector((state) => state.loginuserdata.value);
-  console.log(data);
 
   // fetch all users data from the db
   useEffect(() => {
@@ -100,6 +99,7 @@ const UserItem = ({ status }) => {
                 <button
                   className="hover:bg-secondary hover:rounded"
                   onClick={() => handleFriendRequest(user)}
+                  title="Add Friend"
                 >
                   <IoAddCircleOutline className="h-[40px] w-[40px] text-primary hover:text-white" />
                 </button>
