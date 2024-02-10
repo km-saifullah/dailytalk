@@ -45,7 +45,6 @@ const Signin = () => {
         if (userData.user.emailVerified) {
           localStorage.setItem("user", JSON.stringify(userData.user));
           let d = dispatch(loginuser(userData.user));
-          console.log(d);
           navigate("/home");
         } else {
           signOut(auth).then(() => {
@@ -65,9 +64,7 @@ const Signin = () => {
       .catch((err) => {});
 
     // signed user data
-    onAuthStateChanged(auth, (currentUser) => {
-      console.log(currentUser);
-    });
+    onAuthStateChanged(auth, (currentUser) => {});
     e.preventDefault();
   };
   return (

@@ -7,12 +7,13 @@ import Chats from "../../components/chats/Chats";
 import Users from "../../components/users/Users";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const data = useSelector((state) => state.loginuserdata.value);
   const navigate = useNavigate();
   const [isOpen, setIsOpen] = useState(false);
+  const location = window.location.href;
 
   const handleSidebar = () => {
     setIsOpen(!isOpen);
@@ -23,6 +24,9 @@ const Home = () => {
       navigate("/");
     } else {
       navigate("/home");
+      if (location === "http://localhost:5173") {
+        redirect("/home");
+      }
     }
   }, []);
 

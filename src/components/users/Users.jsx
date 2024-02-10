@@ -14,11 +14,6 @@ const Chats = () => {
         </div>
       </div>
       <UserItem status="active" />
-      <UserItem status="active" />
-      <UserItem status="inactive" />
-      <UserItem status="active" />
-      <UserItem status="active" />
-      <UserItem status="inactive" />
     </section>
   );
 };
