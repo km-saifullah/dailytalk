@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { ImBlocked } from "react-icons/im";
 import { AiOutlineHome } from "react-icons/ai";
 import { GiThreeFriends } from "react-icons/gi";
@@ -31,7 +31,9 @@ const Sidebar = ({ handleSidebar }) => {
       <div className="flex justify-between flex-col gap-[40px]">
         <div className="flex items-center justify-between px-[10px] py-[20px] gap-[95px] h-[10vh]">
           <div>
-            <h3 className="font-bold font-roboto text-[16px]">DailyTalk</h3>
+            <h3 className="font-bold font-roboto text-[16px]">
+              <Link to="/home">DailyTalk</Link>
+            </h3>
           </div>
           <div>
             <button className="font-roboto text-[26px]" onClick={handleSidebar}>

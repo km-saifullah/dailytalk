@@ -11,6 +11,7 @@ export default {
         primary: "#222222",
         textColor: "rgba(34, 34, 34, 0.7)",
         secondary: "rgba(34, 34, 34, 0.5)",
+        statBg: "rgba(34, 34, 34, 0.1)",
         navbar: "#0C0C0C",
       },
       fontFamily: {

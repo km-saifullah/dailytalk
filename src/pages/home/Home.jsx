@@ -7,7 +7,7 @@ import Chats from "../../components/chats/Chats";
 import Users from "../../components/users/Users";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { useSelector } from "react-redux";
-import { redirect, useNavigate } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 
 const Home = () => {
   const data = useSelector((state) => state.loginuserdata.value);
@@ -48,9 +48,11 @@ const Home = () => {
                   // imgSrc={data && data.photoURL}
                   altText="display image"
                 /> */}
-                <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
-                  {data && data.displayName[0]}
-                </h1>
+                <Link to="/settings">
+                  <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
+                    {data && data.displayName[0]}
+                  </h1>
+                </Link>
               </figure>
             </div>
             <h4 className="text-base font-bold font-lato leading-[140%] text-primary">
