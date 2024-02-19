@@ -3,6 +3,7 @@ import { FaBars } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { useSelector } from "react-redux";
+import Image from "../../utils/Image";
 
 const Settings = () => {
   const data = useSelector((state) => state.loginuserdata.value);
@@ -31,9 +32,13 @@ const Settings = () => {
             <div className="w-[68px] h-[68px] rounded-full bg-textColor flex items-center justify-center">
               <figure className="">
                 <Link to="/settings">
-                  <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
+                  {/* <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
                     {data && data.displayName[0]}
-                  </h1>
+                  </h1> */}
+                  <Image
+                    imgSrc={data && data.photoURL}
+                    altText="Porfile Image"
+                  />
                 </Link>
               </figure>
             </div>

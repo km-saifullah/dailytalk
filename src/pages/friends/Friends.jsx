@@ -60,7 +60,6 @@ const Friends = () => {
         theme: "light",
       });
     });
-    console.log(blockInfo);
   };
   return (
     <section className="pt-[10px]">

@@ -47,7 +47,6 @@ const BlockList = () => {
         theme: "light",
       });
     });
-    console.log(unblockInfo);
   };
   return (
     <section className="pt-[10px]">
@@ -122,15 +121,9 @@ const BlockList = () => {
                       style={{ height: "65px", width: "65px" }}
                     />
                     <div>
-                      {data.uid == item.whoBlockedId ? (
-                        <h3 className="text-xl font-medium text-primary font-robotoFlex pt-2 capitalize">
-                          {item.whoBlockedName}
-                        </h3>
-                      ) : (
-                        <h3 className="text-xl font-medium text-primary font-robotoFlex pt-2 capitalize">
-                          {item.blockedName}
-                        </h3>
-                      )}
+                      <h3 className="text-xl font-medium text-primary font-robotoFlex pt-2 capitalize">
+                        {item.blockedName}
+                      </h3>
                       <p>MERN Developer</p>
                     </div>
                   </div>
