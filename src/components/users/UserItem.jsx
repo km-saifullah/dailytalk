@@ -70,20 +70,20 @@ const UserItem = ({ status }) => {
         userList.map((user, index) => (
           <div key={index} className="flex items-center gap-[20px]">
             <div
-              className="w-[60px] h-[60px] rounded-full flex items-center justify-center"
-              style={{
-                backgroundColor: `${colors[Math.floor(Math.random() * 10)]}`,
-              }}
+              className="w-[60px] h-[60px] rounded-full flex items-center justify-center border border-solid"
+              // style={{
+              //   backgroundColor: `${colors[Math.floor(Math.random() * 10)]}`,
+              // }}
             >
               <figure>
-                <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
+                {/* <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
                   {user.fullname[0]}
-                </h1>
-                {/* <Image
+                </h1> */}
+                <Image
                   className="h-full w-full object-cover"
                   imgSrc={user.displayImage}
                   altText="user image misiing"
-                /> */}
+                />
               </figure>
             </div>
             <div className=" flex items-start w-[90%]">

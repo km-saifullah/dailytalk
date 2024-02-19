@@ -5,13 +5,15 @@ import { useSelector } from "react-redux";
 import Sidebar from "../../components/sidebar/Sidebar";
 import { colors } from "../../utils/Colors";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import { onValue, ref, remove } from "firebase/database";
+import { onValue, push, ref, remove, set } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
 import { Hourglass } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
 
 const FriendRequest = () => {
+  const [friendList, setFriendList] = useState();
   const data = useSelector((state) => state.loginuserdata.value);
+  console.log(data);
   const [isOpen, setIsOpen] = useState(false);
   const [friendRequest, setFriendRequest] = useState();
 
@@ -38,6 +40,32 @@ const FriendRequest = () => {
   const handleCancelRequest = (cancelRequest) => {
     remove(ref(db, "friendRequest/" + cancelRequest.id)).then(() => {
       toast.info("Cancel Request", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    });
+  };
+
+  // handle accept friend request
+  const handleAcceptRequest = (acceptReqInfo) => {
+    set(push(ref(db, "friends")), {
+      senderName: acceptReqInfo.senderName,
+      senderId: acceptReqInfo.senderId,
+      senderEmail: acceptReqInfo.senderEmail,
+      senderImg: acceptReqInfo.senderImg,
+      receiverId: data.uid,
+      receiverEmail: data.email,
+      receiverName: data.displayName,
+      receiverImg: data.photoURL,
+    }).then(() => {
+      remove(ref(db, "friendRequest/" + acceptReqInfo.id));
+      toast.success("Friend Requested Accepted", {
         position: "top-right",
         autoClose: 1500,
         hideProgressBar: false,
@@ -139,7 +167,10 @@ const FriendRequest = () => {
                       </div>
                     </div>
                     <div className="flex items-center gap-x-[10px]">
-                      <button className="bg-primary hover:bg-secondary text-white px-[8px] py-[5px] rounded-[8px]">
+                      <button
+                        className="bg-primary hover:bg-secondary text-white px-[8px] py-[5px] rounded-[8px]"
+                        onClick={() => handleAcceptRequest(fRequest)}
+                      >
                         Accept
                       </button>
                       <button

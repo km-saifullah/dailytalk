@@ -63,7 +63,7 @@ const Sidebar = ({ handleSidebar }) => {
           <li>
             <div className="flex items-center gap-[15px]">
               <GiThreeFriends className="h-[30px] w-[30px]" />
-              <NavLink to="/friendrequest">Friends</NavLink>
+              <NavLink to="/friends">Friends</NavLink>
             </div>
           </li>
           <li>

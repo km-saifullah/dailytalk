@@ -43,16 +43,18 @@ const Home = () => {
           <div className="flex items-center justify-center flex-col gap-y-1">
             <div className="w-[68px] h-[68px] rounded-full bg-textColor flex items-center justify-center">
               <figure className="">
-                {/* <Image
-                  className="w-full h-full object-cover"
-                  // imgSrc={data && data.photoURL}
-                  altText="display image"
-                /> */}
-                <Link to="/settings">
+                <Link>
+                  <Image
+                    className="w-full h-full object-cover"
+                    imgSrc={data && data.photoURL}
+                    altText="display image"
+                  />
+                </Link>
+                {/* <Link to="/settings">
                   <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
                     {data && data.displayName[0]}
                   </h1>
-                </Link>
+                </Link> */}
               </figure>
             </div>
             <h4 className="text-base font-bold font-lato leading-[140%] text-primary">
