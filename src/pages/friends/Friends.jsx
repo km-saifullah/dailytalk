@@ -6,6 +6,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { onValue, ref } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
+import Image from "../../utils/Image";
 
 const Friends = () => {
   const [friendList, setFriendList] = useState();
@@ -33,7 +34,6 @@ const Friends = () => {
       setFriendList(friendsArr);
     });
   }, []);
-  console.log(friendList);
   return (
     <section className="pt-[10px]">
       <div className="container mx-auto">
@@ -47,11 +47,11 @@ const Friends = () => {
           <div className="flex items-center justify-center flex-col gap-y-1">
             <div className="w-[68px] h-[68px] rounded-full bg-textColor flex items-center justify-center">
               <figure className="">
-                {/* <Image
+                <Image
                   className="w-full h-full object-cover"
                   imgSrc={data && data.photoURL}
                   altText="display image"
-                /> */}
+                />
                 {/* <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
                   {data && data.displayName[0]}
                 </h1> */}
@@ -81,18 +81,19 @@ const Friends = () => {
               <BsThreeDotsVertical />
             </div>
           </div>
-          <div>
+          <div className="">
             {friendList && friendList.length > 0 ? (
               friendList.map((item, index) => (
-                <div key={index} className="">
+                <div
+                  key={index}
+                  className="flex items-center justify-between flex-wrap py-[15px]"
+                >
                   <div className="userimgbox">
                     <img
                       src={item.senderImg}
                       alt="img"
-                      style={{ height: "100px", width: "100px" }}
+                      style={{ height: "65px", width: "65px" }}
                     />
-                  </div>
-                  <div className="">
                     <div>
                       {data.uid == item.senderId ? (
                         <h3>{item.receiverName}</h3>
@@ -101,7 +102,11 @@ const Friends = () => {
                       )}
                       <p>MERN Developer</p>
                     </div>
-                    <button className="">Block</button>
+                  </div>
+                  <div className="">
+                    <button className="bg-red-700 text-white px-4 py-2 rounded-[8px] text-base font-bold">
+                      Block
+                    </button>
                   </div>
                 </div>
               ))

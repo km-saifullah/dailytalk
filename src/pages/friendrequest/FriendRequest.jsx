@@ -9,11 +9,11 @@ import { onValue, push, ref, remove, set } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
 import { Hourglass } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
+import Image from "../../utils/Image";
 
 const FriendRequest = () => {
   const [friendList, setFriendList] = useState();
   const data = useSelector((state) => state.loginuserdata.value);
-  console.log(data);
   const [isOpen, setIsOpen] = useState(false);
   const [friendRequest, setFriendRequest] = useState();
 
@@ -103,14 +103,14 @@ const FriendRequest = () => {
           <div className="flex items-center justify-center flex-col gap-y-1">
             <div className="w-[68px] h-[68px] rounded-full bg-textColor flex items-center justify-center">
               <figure className="">
-                {/* <Image
-              className="w-full h-full object-cover"
-              // imgSrc={data && data.photoURL}
-              altText="display image"
-            /> */}
-                <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
+                <Image
+                  className="w-full h-full object-cover"
+                  imgSrc={data && data.photoURL}
+                  altText="display image"
+                />
+                {/* <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
                   {data && data.displayName[0]}
-                </h1>
+                </h1> */}
               </figure>
             </div>
             <h4 className="text-base font-bold font-lato leading-[140%] text-primary">
@@ -145,16 +145,21 @@ const FriendRequest = () => {
                     <div className="flex items-center gap-x-[25px]">
                       <div
                         className="w-[60px] h-[60px] rounded-full flex items-center justify-center"
-                        style={{
-                          backgroundColor: `${
-                            colors[Math.floor(Math.random() * 10)]
-                          }`,
-                        }}
+                        // style={{
+                        //   backgroundColor: `${
+                        //     colors[Math.floor(Math.random() * 10)]
+                        //   }`,
+                        // }}
                       >
                         <figure>
-                          <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
+                          {/* <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
                             {fRequest.senderName[0]}
-                          </h1>
+                          </h1> */}
+                          <Image
+                            className="w-full h-full object-cover"
+                            imgSrc={fRequest.senderImg}
+                            altText="display image"
+                          />
                         </figure>
                       </div>
                       <div>
@@ -168,13 +173,13 @@ const FriendRequest = () => {
                     </div>
                     <div className="flex items-center gap-x-[10px]">
                       <button
-                        className="bg-primary hover:bg-secondary text-white px-[8px] py-[5px] rounded-[8px]"
+                        className="bg-green-600 hover:bg-green-700 text-white font-bold px-4 py-2 rounded-[8px]"
                         onClick={() => handleAcceptRequest(fRequest)}
                       >
                         Accept
                       </button>
                       <button
-                        className="bg-primary hover:bg-secondary text-white px-[8px] py-[5px] rounded-[8px]"
+                        className="bg-red-500 hover:bg-red-700 text-white font-bold px-4 py-2 rounded-[8px]"
                         onClick={() => handleCancelRequest(fRequest)}
                       >
                         Cancel
