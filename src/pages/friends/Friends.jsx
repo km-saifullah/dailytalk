@@ -4,9 +4,10 @@ import { FaBars } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { useSelector } from "react-redux";
-import { onValue, ref } from "firebase/database";
+import { onValue, push, ref, remove, set } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
 import Image from "../../utils/Image";
+import { ToastContainer, toast } from "react-toastify";
 
 const Friends = () => {
   const [friendList, setFriendList] = useState();
@@ -34,9 +35,48 @@ const Friends = () => {
       setFriendList(friendsArr);
     });
   }, []);
+
+  // user block functionality
+  const handleUserBlock = (blockInfo) => {
+    set(push(ref(db, "blockList")), {
+      blockedName: blockInfo.senderName,
+      blockedId: blockInfo.senderId,
+      blockedEmail: blockInfo.senderEmail,
+      blockedImg: blockInfo.senderImg,
+      whoBlockId: data.uid,
+      whoBlockEmail: data.email,
+      whoBlockName: data.displayName,
+      whoBlockImg: data.photoURL,
+    }).then(() => {
+      remove(ref(db, "friends/" + blockInfo.id));
+      toast.success("User Has Been Blocked", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    });
+    console.log(blockInfo);
+  };
   return (
     <section className="pt-[10px]">
       <div className="container mx-auto">
+        <ToastContainer
+          position="top-right"
+          autoClose={1500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <header className="flex items-center justify-between pb-[20px] relative">
           {isOpen && <Sidebar handleSidebar={handleSidebar} />}
           <div className="text-primary cursor-pointer">
@@ -90,21 +130,32 @@ const Friends = () => {
                 >
                   <div className="userimgbox">
                     <img
-                      src={item.senderImg}
+                      src={
+                        data.uid == item.senderId
+                          ? item.receiverImg
+                          : item.senderImg
+                      }
                       alt="img"
                       style={{ height: "65px", width: "65px" }}
                     />
                     <div>
                       {data.uid == item.senderId ? (
-                        <h3>{item.receiverName}</h3>
+                        <h3 className="text-xl font-medium text-primary font-robotoFlex pt-2 capitalize">
+                          {item.receiverName}
+                        </h3>
                       ) : (
-                        <h3>{item.senderName}</h3>
+                        <h3 className="text-xl font-medium text-primary font-robotoFlex pt-2 capitalize">
+                          {item.senderName}
+                        </h3>
                       )}
                       <p>MERN Developer</p>
                     </div>
                   </div>
                   <div className="">
-                    <button className="bg-red-700 text-white px-4 py-2 rounded-[8px] text-base font-bold">
+                    <button
+                      onClick={() => handleUserBlock(item)}
+                      className="bg-red-600 hover:bg-red-700 text-white font-roboto px-4 py-2 rounded-[8px] text-base font-bold"
+                    >
                       Block
                     </button>
                   </div>
