@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import Image from "../../utils/Image";
-import img from "../../assets/images/john.png";
 import { useSelector } from "react-redux";
 import { onValue, push, ref, set } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
 import { Hourglass } from "react-loader-spinner";
-import { colors } from "../../utils/Colors";
 import { IoAddCircleOutline } from "react-icons/io5";
 import { ToastContainer, toast } from "react-toastify";
 
 const UserItem = ({ status }) => {
-  const [userList, setUserList] = useState();
   const data = useSelector((state) => state.loginuserdata.value);
+  const [userList, setUserList] = useState([]);
+  const [friendRequest, setFriendRequest] = useState([]);
+  const [friendList, setFriendList] = useState([]);
 
   // fetch all users data from the db
   useEffect(() => {
@@ -52,6 +52,38 @@ const UserItem = ({ status }) => {
       });
     });
   };
+
+  // fetch friend request data from db
+  useEffect(() => {
+    const friendRequestRef = ref(db, "friendRequest");
+    onValue(friendRequestRef, (snapshot) => {
+      let requestArr = [];
+      snapshot.forEach((request) => {
+        if (request.val().senderId == data.uid) {
+          requestArr.push(request.val().receiverId + request.val().senderId);
+        }
+      });
+      setFriendRequest(requestArr);
+    });
+  }, []);
+
+  // fetch friend list data from db
+  useEffect(() => {
+    const friendRef = ref(db, "friends");
+    onValue(friendRef, (snapshot) => {
+      let friendsArr = [];
+      snapshot.forEach((friend) => {
+        if (
+          friend.val().receiverId == data.uid ||
+          friend.val().senderId == data.uid
+        ) {
+          friendsArr.push(friend.val().receiverId + friend.val().senderId);
+        }
+      });
+      setFriendList(friendsArr);
+    });
+  }, []);
+
   return (
     <div className="flex flex-col flex-wrap  gap-[20px] pt-[25px]">
       <ToastContainer
@@ -95,14 +127,33 @@ const UserItem = ({ status }) => {
                   {status}
                 </p>
               </div>
-              <div className="w-[10%]">
-                <button
-                  className="hover:bg-secondary hover:rounded"
-                  onClick={() => handleFriendRequest(user)}
-                  title="Add Friend"
-                >
-                  <IoAddCircleOutline className="h-[40px] w-[40px] text-primary hover:text-white" />
-                </button>
+              <div className="w-[40%]">
+                {(friendRequest.length > 0 &&
+                  friendRequest.includes(user.id + data.uid)) ||
+                friendRequest.includes(data.uid + user.id) ? (
+                  <div className="flex items-center gap-x-3">
+                    <button className="w-[100px] h-[40px] text-white bg-secondary rounded cursor-auto">
+                      Pending
+                    </button>
+                    <button className="hover:bg-red-700 hover:rounded w-[100px] h-[40px] text-white bg-red-600 rounded">
+                      Cancel
+                    </button>
+                  </div>
+                ) : friendList.includes(user.id + data.uid) ||
+                  friendList.includes(data.uid + user.id) ? (
+                  <button className="w-[100px] h-[40px] text-white bg-green-600 rounded cursor-auto">
+                    Friend
+                  </button>
+                ) : (
+                  <button
+                    className="hover:bg-secondary hover:rounded w-[100px] h-[40px] text-white bg-primary rounded"
+                    onClick={() => handleFriendRequest(user)}
+                    title="Add Friend"
+                  >
+                    {/* <IoAddCircleOutline className="h-[40px] w-[40px] text-primary hover:text-white" /> */}
+                    Add Friend
+                  </button>
+                )}
               </div>
             </div>
           </div>
