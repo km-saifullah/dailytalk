@@ -127,7 +127,7 @@ const UserItem = ({ status }) => {
                   {status}
                 </p>
               </div>
-              <div className="w-[40%]">
+              <div className="w-[30%]">
                 {(friendRequest.length > 0 &&
                   friendRequest.includes(user.id + data.uid)) ||
                 friendRequest.includes(data.uid + user.id) ? (
