@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Image from "../../utils/Image";
 import { useSelector } from "react-redux";
-import { onValue, push, ref, set } from "firebase/database";
+import { onValue, push, ref, remove, set } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
 import { Hourglass } from "react-loader-spinner";
-import { IoAddCircleOutline } from "react-icons/io5";
 import { ToastContainer, toast } from "react-toastify";
 
 const UserItem = ({ status }) => {
@@ -84,6 +83,23 @@ const UserItem = ({ status }) => {
     });
   }, []);
 
+  // cancel friend request
+  const handleCancelFriendReq = (cancelInfo) => {
+    console.log(cancelInfo);
+    // remove(ref(db, "friendRequest/" + cancelInfo.id)).then(() => {
+    //   toast.success("Cancel Request", {
+    //     position: "top-right",
+    //     autoClose: 1500,
+    //     hideProgressBar: false,
+    //     closeOnClick: true,
+    //     pauseOnHover: true,
+    //     draggable: true,
+    //     progress: undefined,
+    //     theme: "light",
+    //   });
+    // });
+  };
+
   return (
     <div className="flex flex-col flex-wrap  gap-[20px] pt-[25px]">
       <ToastContainer
@@ -101,16 +117,8 @@ const UserItem = ({ status }) => {
       {userList && userList.length > 0 ? (
         userList.map((user, index) => (
           <div key={index} className="flex items-center gap-[20px]">
-            <div
-              className="w-[60px] h-[60px] rounded-full flex items-center justify-center border border-solid"
-              // style={{
-              //   backgroundColor: `${colors[Math.floor(Math.random() * 10)]}`,
-              // }}
-            >
+            <div className="w-[60px] h-[60px] rounded-full flex items-center justify-center border border-solid">
               <figure>
-                {/* <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
-                  {user.fullname[0]}
-                </h1> */}
                 <Image
                   className="h-full w-full object-cover"
                   imgSrc={user.displayImage}
@@ -135,7 +143,10 @@ const UserItem = ({ status }) => {
                     <button className="w-[100px] h-[40px] text-white bg-secondary rounded cursor-auto">
                       Pending
                     </button>
-                    <button className="hover:bg-red-700 hover:rounded w-[100px] h-[40px] text-white bg-red-600 rounded">
+                    <button
+                      className="hover:bg-red-700 hover:rounded w-[100px] h-[40px] text-white bg-red-600 rounded"
+                      onClick={() => handleCancelFriendReq(user)}
+                    >
                       Cancel
                     </button>
                   </div>

@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { FaBars } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import Image from "../../utils/Image";
-import profileImg from "../../assets/images/profile.png";
 import Chats from "../../components/chats/Chats";
 import Users from "../../components/users/Users";
 import Sidebar from "../../components/sidebar/Sidebar";
