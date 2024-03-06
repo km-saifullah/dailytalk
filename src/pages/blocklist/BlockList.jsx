@@ -130,7 +130,7 @@ const BlockList = () => {
                   <div className="">
                     <button
                       onClick={() => handleUserUnblock(item)}
-                      className="bg-blue-600 hover:bg-blue-700 text-white font-roboto px-4 py-2 rounded-[8px] text-base font-bold"
+                      className="bg-blue-600 hover:bg-blue-500 w-[100px] h-[40px] text-white rounded font-roboto text-base font-bold"
                     >
                       Unblock
                     </button>

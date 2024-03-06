@@ -153,7 +153,7 @@ const People = () => {
                   <div className="">
                     <button
                       onClick={() => handleUserBlock(item)}
-                      className="bg-red-600 hover:bg-red-700 text-white font-roboto px-4 py-2 rounded-[8px] text-base font-bold"
+                      className="bg-red-500 hover:bg-red-700 w-[100px] h-[40px] text-white rounded font-roboto"
                     >
                       Block
                     </button>

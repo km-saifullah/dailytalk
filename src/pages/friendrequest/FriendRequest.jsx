@@ -3,7 +3,6 @@ import { FaBars } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import { useSelector } from "react-redux";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { colors } from "../../utils/Colors";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { onValue, push, ref, remove, set } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
@@ -143,18 +142,8 @@ const FriendRequest = () => {
                 <div key={index} className="pt-[20px]">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-x-[25px]">
-                      <div
-                        className="w-[60px] h-[60px] rounded-full flex items-center justify-center"
-                        // style={{
-                        //   backgroundColor: `${
-                        //     colors[Math.floor(Math.random() * 10)]
-                        //   }`,
-                        // }}
-                      >
+                      <div className="w-[60px] h-[60px] rounded-full flex items-center justify-center">
                         <figure>
-                          {/* <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
-                            {fRequest.senderName[0]}
-                          </h1> */}
                           <Image
                             className="w-full h-full object-cover"
                             imgSrc={fRequest.senderImg}

@@ -91,9 +91,6 @@ const Friends = () => {
                   imgSrc={data && data.photoURL}
                   altText="display image"
                 />
-                {/* <h1 className="text-white text-4xl font-robotoFlex font-bold uppercase">
-                  {data && data.displayName[0]}
-                </h1> */}
               </figure>
             </div>
             <h4 className="text-base font-bold font-lato leading-[140%] text-primary">
@@ -150,10 +147,10 @@ const Friends = () => {
                       <p>MERN Developer</p>
                     </div>
                   </div>
-                  <div className="">
+                  <div>
                     <button
                       onClick={() => handleUserBlock(item)}
-                      className="bg-red-600 hover:bg-red-700 text-white font-roboto px-4 py-2 rounded-[8px] text-base font-bold"
+                      className="bg-red-500 hover:bg-red-700 w-[100px] h-[40px] text-white rounded font-roboto"
                     >
                       Block
                     </button>
