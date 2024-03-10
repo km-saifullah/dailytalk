@@ -131,6 +131,9 @@ const Signup = () => {
           theme="light"
         />
         <div className="h-[100vh] flex items-center justify-center flex-col">
+          <h1 className="text-primary font-extrabold text-6xl pb-6 font-roboto text-center">
+            dailyTalk
+          </h1>
           <div>
             <h2 className="text-primary font-robotoFlex text-[35px] leading-[140%] font-semibold text-center">
               Register Yourself

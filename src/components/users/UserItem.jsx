@@ -11,6 +11,23 @@ const UserItem = ({ status }) => {
   const [userList, setUserList] = useState([]);
   const [friendRequest, setFriendRequest] = useState([]);
   const [friendList, setFriendList] = useState([]);
+  const [blockList, setBlockList] = useState([]);
+
+  // fetch block list data
+  useEffect(() => {
+    const blockListRef = ref(db, "blockList");
+    onValue(blockListRef, (snapshot) => {
+      let blockArr = [];
+      snapshot.forEach((blockList) => {
+        if (data.uid == blockList.val().whoBlockId) {
+          blockArr.push({ ...blockList.val(), id: blockList.key });
+        }
+      });
+      setBlockList(blockArr);
+    });
+  }, []);
+  console.log(blockList);
+  console.log(userList);
 
   // fetch all users data from the db
   useEffect(() => {

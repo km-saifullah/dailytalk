@@ -85,8 +85,11 @@ const Signin = () => {
           />
         </div>
         <div className="h-[100vh] flex items-center justify-center flex-col">
+          <h1 className="text-primary font-extrabold text-6xl pb-6 font-roboto text-center">
+            dailyTalk
+          </h1>
           <div>
-            <h2 className="text-primary font-robotoFlex text-[35px] leading-[140%] font-semibold text-center">
+            <h2 className="text-primary font-robotoFlex text-[20px] leading-[140%] font-semibold text-center">
               Signin Yourself
             </h2>
             <p className="w-[495px] mx-auto pt-2 pb-6 text-textColor text-[14px] font-roboto font-normal leading-[120%] text-center">
