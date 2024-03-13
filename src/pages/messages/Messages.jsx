@@ -83,10 +83,22 @@ const Messages = () => {
     const messageRef = ref(db, "message");
     onValue(messageRef, (snapshot) => {
       let messageArr = [];
+      let activeUserId =
+        activeChat.senderId == data.uid
+          ? activeChat.receiverId
+          : activeChat.senderId;
       snapshot.forEach((message) => {
+        // if (
+        //   data.uid == message.val().receiverId ||
+        //   data.uid == message.val().senderId
+        // ) {
+        //   messageArr.push({ ...message.val(), id: message.id });
+        // }
         if (
-          data.uid == message.val().receiverId ||
-          data.uid == message.val().senderId
+          (message.val().senderId == data.uid &&
+            message.val().receiverId == activeUserId) ||
+          (message.val().receiverId == data.uid &&
+            message.val().senderId == activeUserId)
         ) {
           messageArr.push({ ...message.val(), id: message.id });
         }
@@ -192,17 +204,22 @@ const Messages = () => {
                 </div>
               </div>
               <div className="p-5 space-y-4 h-[75%] overflow-scroll no-scrollbar">
-                <div className="">
-                  <p className="bg-[#222222b3] text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
-                    👊👊👊👊👊👊
-                  </p>
-                </div>
-                {allMessage.map((senderMessage, index) => (
-                  <div className="flex items-end justify-end" key={index}>
-                    <p className=" bg-primary text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
-                      {senderMessage.message}
-                    </p>
-                  </div>
+                {allMessage.map((allMessage, index) => (
+                  <>
+                    {allMessage.receiverId == data.uid ? (
+                      <div className="">
+                        <p className="bg-[#222222b3] text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
+                          {allMessage.message}
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="flex items-end justify-end" key={index}>
+                        <p className=" bg-primary text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
+                          {allMessage.message}
+                        </p>
+                      </div>
+                    )}
+                  </>
                 ))}
               </div>
               <div className="flex items-center justify-between h-[10%] px-4 bg-primary border border-primary rounded-2xl">
