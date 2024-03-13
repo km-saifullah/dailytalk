@@ -3,18 +3,23 @@ import { FaBars } from "react-icons/fa6";
 import { IoSearch } from "react-icons/io5";
 import Image from "../../utils/Image";
 import Sidebar from "../../components/sidebar/Sidebar";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { onValue, ref } from "firebase/database";
+import { onValue, push, ref, set } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
 import { AiOutlineSend } from "react-icons/ai";
+import { activeUser } from "../../features/activeUser/activeUserSlice";
 
 const Messages = () => {
   const [friendList, setFriendList] = useState();
-  const data = useSelector((state) => state.loginuserdata.value);
-
   const [isOpen, setIsOpen] = useState(false);
+  const data = useSelector((state) => state.loginuserdata.value);
+  const activeChat = useSelector((state) => state.activeuserdata.value);
+  const dispatch = useDispatch();
+  const [messageText, setMessageText] = useState("");
+  const [allMessage, setAllMessage] = useState([]);
 
+  // handle sidebar
   const handleSidebar = () => {
     setIsOpen(!isOpen);
   };
@@ -36,8 +41,59 @@ const Messages = () => {
     });
   }, []);
 
+  // handle active user
+
   // handle message
-  const handleMessage = (friend) => {};
+  const handleSelectedChat = (selectedFriend) => {
+    dispatch(activeUser(selectedFriend));
+  };
+
+  // handle message input
+  const handleMessageInput = (e) => {
+    setMessageText(e.target.value);
+  };
+
+  // handle send message
+  const handleSendMessgae = () => {
+    set(push(ref(db, "message")), {
+      senderId: data.uid,
+      senderEmail: data.email,
+      senderName: data.displayName,
+      message: messageText,
+      receiverId:
+        data.uid == activeChat.receiverId
+          ? activeChat.senderId
+          : activeChat.receiverId,
+      receiverName:
+        data.uid == activeChat.receiverId
+          ? activeChat.senderName
+          : activeChat.receiverName,
+      receiverEmail:
+        data.uid == activeChat.receiverId
+          ? activeChat.senderEmail
+          : activeChat.receiverEmail,
+    }).then(() => {
+      console.log("Messgae Send Successfully");
+    });
+    setMessageText("");
+  };
+
+  // fetch message form db
+  useEffect(() => {
+    const messageRef = ref(db, "message");
+    onValue(messageRef, (snapshot) => {
+      let messageArr = [];
+      snapshot.forEach((message) => {
+        if (
+          data.uid == message.val().receiverId ||
+          data.uid == message.val().senderId
+        ) {
+          messageArr.push({ ...message.val(), id: message.id });
+        }
+      });
+      setAllMessage(messageArr);
+    });
+  }, [activeChat]);
 
   return (
     <section className="pt-[10px]">
@@ -88,7 +144,7 @@ const Messages = () => {
                 <div
                   key={index}
                   className="flex items-center  gap-[11px] p-2 cursor-pointer hover:bg-secondary hover:text-white hover:rounded mt-5"
-                  onClick={() => handleMessage(friend)}
+                  onClick={() => handleSelectedChat(friend)}
                 >
                   <div className="w-[68px] h-[68px] overflow-hidden">
                     <Image
@@ -121,72 +177,55 @@ const Messages = () => {
               <h1>No Friends Available to Chat</h1>
             )}
           </div>
-          <div className="w-[70%] bg-[#2222220d] rounded-t-xl">
-            <div className="bg-primary h-[15%] rounded-t-xl">
-              <div className="p-4 space-y-2">
-                <h3 className="text-white text-xl font-roboto">Hello Name</h3>
-                <p className="text-white text-sm font-normal font-robotoFlex">
-                  Active Now
-                </p>
+          {activeChat != null ? (
+            <div className="w-[70%] bg-[#2222220d] rounded-t-xl">
+              <div className="bg-primary h-[15%] rounded-t-xl">
+                <div className="p-4 space-y-2">
+                  <h3 className="text-white text-xl font-roboto">
+                    {activeChat !== null && activeChat.senderId == data.uid
+                      ? activeChat.receiverName
+                      : activeChat.senderName}
+                  </h3>
+                  <p className="text-white text-sm font-normal font-robotoFlex">
+                    Active Now
+                  </p>
+                </div>
+              </div>
+              <div className="p-5 space-y-4 h-[75%] overflow-scroll no-scrollbar">
+                <div className="">
+                  <p className="bg-[#222222b3] text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
+                    👊👊👊👊👊👊
+                  </p>
+                </div>
+                {allMessage.map((senderMessage, index) => (
+                  <div className="flex items-end justify-end" key={index}>
+                    <p className=" bg-primary text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
+                      {senderMessage.message}
+                    </p>
+                  </div>
+                ))}
+              </div>
+              <div className="flex items-center justify-between h-[10%] px-4 bg-primary border border-primary rounded-2xl">
+                <div className="w-[90%]">
+                  <input
+                    type="text"
+                    placeholder="Enter Your Message"
+                    className="w-full px-5 py-2 rounded-3xl bg-transparent outline-none border-none text-white font-normal font-nunito"
+                    onChange={handleMessageInput}
+                    value={messageText}
+                  />
+                </div>
+                <div className="h-[50px] w-[50px] hover:bg-[#ffffff4d] transition-all ease-linear duration-300 flex items-center justify-center rounded-full">
+                  <button
+                    className="text-3xl text-white font-bold"
+                    onClick={handleSendMessgae}
+                  >
+                    <AiOutlineSend className="h-[26px] w-[26px]" />
+                  </button>
+                </div>
               </div>
             </div>
-            <div className="p-5 space-y-4 h-[75%] overflow-scroll no-scrollbar">
-              <div className="">
-                <p className="bg-[#222222b3] text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
-                  Hello I am from the Earth🌏
-                </p>
-              </div>
-              <div className="flex items-end justify-end">
-                <p className=" bg-primary text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
-                  Hi I am from the Universe
-                </p>
-              </div>
-              <div className="">
-                <p className="bg-[#222222b3] text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
-                  What are you doing in the Universe?
-                </p>
-              </div>
-              <div className="flex items-end justify-end">
-                <p className=" bg-primary text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
-                  I am talking with the stars⭐️ and moons. What about you?
-                </p>
-              </div>
-              <div className="">
-                <p className="bg-[#222222b3] text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
-                  I am messing around with the monkeys🐒🐒🐒🐒
-                </p>
-              </div>
-              <div className="flex items-end justify-end">
-                <p className=" bg-primary text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
-                  hahahahahaha🤣🤣🤣
-                </p>
-              </div>
-              <div className="">
-                <p className="bg-[#222222b3] text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
-                  👊👊👊👊👊👊
-                </p>
-              </div>
-              <div className="flex items-end justify-end">
-                <p className=" bg-primary text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
-                  🤠🤠🤠
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center justify-between h-[10%] px-4 bg-primary border border-primary rounded-2xl">
-              <div className="w-[90%]">
-                <input
-                  type="text"
-                  placeholder="Enter Your Message"
-                  className="w-full px-5 py-2 rounded-3xl bg-transparent outline-none border-none text-white font-normal font-nunito"
-                />
-              </div>
-              <div className="h-[40px] w-[40px] hover:bg-[#ffffff4d] flex items-center justify-center rounded-full">
-                <button className="text-3xl text-white font-bold">
-                  <AiOutlineSend />
-                </button>
-              </div>
-            </div>
-          </div>
+          ) : null}
         </div>
       </div>
     </section>
