@@ -9,6 +9,7 @@ import { onValue, push, ref, set } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
 import { AiOutlineSend } from "react-icons/ai";
 import { activeUser } from "../../features/activeUser/activeUserSlice";
+import { ToastContainer, toast } from "react-toastify";
 
 const Messages = () => {
   const [friendList, setFriendList] = useState();
@@ -18,9 +19,6 @@ const Messages = () => {
   const dispatch = useDispatch();
   const [messageText, setMessageText] = useState("");
   const [allMessage, setAllMessage] = useState([]);
-
-  console.log("data:", data);
-  console.log("activeChat:", activeChat);
 
   // handle sidebar
   const handleSidebar = () => {
@@ -44,8 +42,6 @@ const Messages = () => {
     });
   }, []);
 
-  // handle active user
-
   // handle message
   const handleSelectedChat = (selectedFriend) => {
     dispatch(activeUser(selectedFriend));
@@ -58,34 +54,45 @@ const Messages = () => {
 
   // handle send message
   const handleSendMessgae = () => {
-    set(push(ref(db, "message")), {
-      senderId: data.uid,
-      senderEmail: data.email,
-      senderName: data.displayName,
-      message: messageText,
-      senderPhoto: data.photoURL,
-      receiverId:
-        data.uid == activeChat.receiverId
-          ? activeChat.senderId
-          : activeChat.receiverId,
-      receiverName:
-        data.uid == activeChat.receiverId
-          ? activeChat.senderName
-          : activeChat.receiverName,
-      receiverEmail:
-        data.uid == activeChat.receiverId
-          ? activeChat.senderEmail
-          : activeChat.receiverEmail,
-      receiverPhoto:
-        data.uid == activeChat.receiverId
-          ? activeChat.senderImg
-          : activeChat.receiverImg,
-    }).then(() => {
-      console.log("Messgae Send Successfully");
-    });
-    setMessageText("");
+    if (messageText == "") {
+      toast.warn("Please Write Something!", {
+        position: "top-right",
+        autoClose: 1500,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "light",
+      });
+    } else {
+      set(push(ref(db, "message")), {
+        senderId: data.uid,
+        senderEmail: data.email,
+        senderName: data.displayName,
+        message: messageText,
+        senderPhoto: data.photoURL,
+        receiverId:
+          data.uid == activeChat.receiverId
+            ? activeChat.senderId
+            : activeChat.receiverId,
+        receiverName:
+          data.uid == activeChat.receiverId
+            ? activeChat.senderName
+            : activeChat.receiverName,
+        receiverEmail:
+          data.uid == activeChat.receiverId
+            ? activeChat.senderEmail
+            : activeChat.receiverEmail,
+        receiverPhoto:
+          data.uid == activeChat.receiverId
+            ? activeChat.senderImg
+            : activeChat.receiverImg,
+      }).then(() => {
+        setMessageText("");
+      });
+    }
   };
-  console.log(activeChat);
 
   // fetch message form db
   useEffect(() => {
@@ -97,12 +104,6 @@ const Messages = () => {
           ? activeChat.receiverId
           : activeChat.senderId;
       snapshot.forEach((message) => {
-        // if (
-        //   data.uid == message.val().receiverId ||
-        //   data.uid == message.val().senderId
-        // ) {
-        //   messageArr.push({ ...message.val(), id: message.id });
-        // }
         if (
           (message.val().senderId == data.uid &&
             message.val().receiverId == activeUserId) ||
@@ -119,6 +120,18 @@ const Messages = () => {
   return (
     <section className="pt-[10px]">
       <div className="container mx-auto">
+        <ToastContainer
+          position="top-right"
+          autoClose={1500}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+          theme="light"
+        />
         <header className="flex items-center justify-between pb-[20px] relative">
           {isOpen && <Sidebar handleSidebar={handleSidebar} />}
           <div className="text-primary cursor-pointer">
@@ -180,15 +193,15 @@ const Messages = () => {
                   </div>
                   <div>
                     {data.uid == friend.senderId ? (
-                      <h5 className="text-primary text-xl font-bold font-nunito leading-[140%] capitalize">
+                      <h5 className="text-primary text-xl font-bold font-roboto leading-[140%] capitalize">
                         {friend.receiverName}
                       </h5>
                     ) : (
-                      <h5 className="text-primary text-xl font-bold font-nunito leading-[140%] capitalize">
+                      <h5 className="text-primary text-xl font-bold font-roboto leading-[140%] capitalize">
                         {friend.senderName}
                       </h5>
                     )}
-                    <p className="text-textColor text-[14px] font-normal font-roboto leading-[120%]">
+                    <p className="text-textColor text-[14px] font-normal font-robotoFlex leading-[120%]">
                       Active
                     </p>
                   </div>
@@ -229,13 +242,13 @@ const Messages = () => {
                             />
                           </div>
                         </div>
-                        <div className="chat-header">
+                        <div className="chat-header font-roboto">
                           {allMessage.senderName}
                           <time className="text-xs opacity-50">
                             <span className="ml-1">12:45</span>
                           </time>
                         </div>
-                        <div className="chat-bubble bg-[#222222b3]">
+                        <div className="chat-bubble bg-[#222222b3] font-nunito">
                           {allMessage.message}
                         </div>
                       </div>
@@ -253,13 +266,13 @@ const Messages = () => {
                             />
                           </div>
                         </div>
-                        <div className="chat-header">
+                        <div className="chat-header font-roboto">
                           {allMessage.senderName}
                           <time className="text-xs opacity-50">
                             <span className="ml-1">12:45</span>
                           </time>
                         </div>
-                        <div className="chat-bubble bg-primary">
+                        <div className="chat-bubble bg-primary font-nunito">
                           {allMessage.message}
                         </div>
                       </div>
