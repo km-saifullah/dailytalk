@@ -88,6 +88,7 @@ const Messages = () => {
           data.uid == activeChat.receiverId
             ? activeChat.senderImg
             : activeChat.receiverImg,
+        time: `${new Date().getHours()}:${new Date().getMinutes()}`,
       }).then(() => {
         setMessageText("");
       });
@@ -245,7 +246,7 @@ const Messages = () => {
                         <div className="chat-header font-roboto">
                           {allMessage.senderName}
                           <time className="text-xs opacity-50">
-                            <span className="ml-1">12:45</span>
+                            <span className="ml-1">{allMessage.time}</span>
                           </time>
                         </div>
                         <div className="chat-bubble bg-[#222222b3] font-nunito">
@@ -269,7 +270,7 @@ const Messages = () => {
                         <div className="chat-header font-roboto">
                           {allMessage.senderName}
                           <time className="text-xs opacity-50">
-                            <span className="ml-1">12:45</span>
+                            <span className="ml-1">{allMessage.time}</span>
                           </time>
                         </div>
                         <div className="chat-bubble bg-primary font-nunito">
