@@ -19,6 +19,9 @@ const Messages = () => {
   const [messageText, setMessageText] = useState("");
   const [allMessage, setAllMessage] = useState([]);
 
+  console.log("data:", data);
+  console.log("activeChat:", activeChat);
+
   // handle sidebar
   const handleSidebar = () => {
     setIsOpen(!isOpen);
@@ -60,6 +63,7 @@ const Messages = () => {
       senderEmail: data.email,
       senderName: data.displayName,
       message: messageText,
+      senderPhoto: data.photoURL,
       receiverId:
         data.uid == activeChat.receiverId
           ? activeChat.senderId
@@ -72,11 +76,16 @@ const Messages = () => {
         data.uid == activeChat.receiverId
           ? activeChat.senderEmail
           : activeChat.receiverEmail,
+      receiverPhoto:
+        data.uid == activeChat.receiverId
+          ? activeChat.senderImg
+          : activeChat.receiverImg,
     }).then(() => {
       console.log("Messgae Send Successfully");
     });
     setMessageText("");
   };
+  console.log(activeChat);
 
   // fetch message form db
   useEffect(() => {
@@ -205,21 +214,57 @@ const Messages = () => {
               </div>
               <div className="p-5 space-y-4 h-[75%] overflow-scroll no-scrollbar">
                 {allMessage.map((allMessage, index) => (
-                  <>
+                  <div key={index}>
                     {allMessage.receiverId == data.uid ? (
-                      <div className="">
-                        <p className="bg-[#222222b3] text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
+                      <div className="chat chat-start">
+                        <div className="chat-image avatar">
+                          <div className="w-10 rounded-full">
+                            <img
+                              alt="Tailwind CSS chat bubble component"
+                              src={
+                                allMessage.receiverId != data.uid
+                                  ? allMessage.receiverPhoto
+                                  : allMessage.senderPhoto
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div className="chat-header">
+                          {allMessage.senderName}
+                          <time className="text-xs opacity-50">
+                            <span className="ml-1">12:45</span>
+                          </time>
+                        </div>
+                        <div className="chat-bubble bg-[#222222b3]">
                           {allMessage.message}
-                        </p>
+                        </div>
                       </div>
                     ) : (
-                      <div className="flex items-end justify-end" key={index}>
-                        <p className=" bg-primary text-white p-3 rounded-2xl w-[40%] inline-block font-nunito text-base font-medium">
+                      <div className="chat chat-end">
+                        <div className="chat-image avatar">
+                          <div className="w-10 rounded-full">
+                            <img
+                              alt="Tailwind CSS chat bubble component"
+                              src={
+                                allMessage.receiverId != data.uid
+                                  ? allMessage.senderPhoto
+                                  : allMessage.receiverPhoto
+                              }
+                            />
+                          </div>
+                        </div>
+                        <div className="chat-header">
+                          {allMessage.senderName}
+                          <time className="text-xs opacity-50">
+                            <span className="ml-1">12:45</span>
+                          </time>
+                        </div>
+                        <div className="chat-bubble bg-primary">
                           {allMessage.message}
-                        </p>
+                        </div>
                       </div>
                     )}
-                  </>
+                  </div>
                 ))}
               </div>
               <div className="flex items-center justify-between h-[10%] px-4 bg-primary border border-primary rounded-2xl">
