@@ -26,8 +26,6 @@ const UserItem = ({ status }) => {
       setBlockList(blockArr);
     });
   }, []);
-  console.log(blockList);
-  console.log(userList);
 
   // fetch all users data from the db
   useEffect(() => {
