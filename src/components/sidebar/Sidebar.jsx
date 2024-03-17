@@ -1,5 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { signOut } from "firebase/auth";
+import { auth } from "../../db/firebaseConfig";
+import { useDispatch, useSelector } from "react-redux";
+import { loginuser } from "../../features/user/userSlice";
 import { ImBlocked } from "react-icons/im";
 import { AiOutlineHome } from "react-icons/ai";
 import { GiThreeFriends } from "react-icons/gi";
@@ -7,15 +11,12 @@ import { AiOutlineLogout } from "react-icons/ai";
 import { RxCross2 } from "react-icons/rx";
 import { FaUsers } from "react-icons/fa";
 import { FaPeopleGroup } from "react-icons/fa6";
-import { signOut } from "firebase/auth";
-import { auth } from "../../db/firebaseConfig";
-import { useDispatch, useSelector } from "react-redux";
-import { loginuser } from "../../features/user/userSlice";
 
 const Sidebar = ({ handleSidebar }) => {
   const data = useSelector((state) => state.loginuserdata.value);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
   // handle logout
   const handleLogout = () => {
     signOut(auth)
