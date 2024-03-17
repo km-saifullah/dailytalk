@@ -5,7 +5,6 @@ import {
   emailValidation,
   passwordValidation,
 } from "../../validation/Validation";
-import Error from "../../utils/Error";
 import {
   createUserWithEmailAndPassword,
   sendEmailVerification,
@@ -18,6 +17,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import maleAvatar from "../../assets/images/male_avatar.png";
 import femaleAvatar from "../../assets/images/female_avatar.png";
+import { Error } from "../../utils";
 
 const Signup = () => {
   const [isLoaded, setIsLoaded] = useState(false);

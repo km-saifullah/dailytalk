@@ -10,5 +10,3 @@ export const colors = [
   "#8a2be2",
   "#32174D",
 ];
-
-// console.log();

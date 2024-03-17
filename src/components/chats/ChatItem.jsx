@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import img from "../../assets/images/john.png";
-import Image from "../../utils/Image";
 import { onValue, ref } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
 import { useSelector } from "react-redux";
+import { Image } from "../../utils";
 
 const ChatItem = () => {
   const [friendList, setFriendList] = useState();
@@ -27,9 +26,7 @@ const ChatItem = () => {
   }, []);
 
   // handle message
-  const handleMessage = (friend) => {
-    console.log(friend);
-  };
+  const handleMessage = (friend) => {};
 
   return (
     <>

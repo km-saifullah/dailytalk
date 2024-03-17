@@ -1,15 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { FaBars } from "react-icons/fa6";
-import { IoSearch } from "react-icons/io5";
-import Image from "../../utils/Image";
-import Sidebar from "../../components/sidebar/Sidebar";
-import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { onValue, push, ref, set } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
+import { useDispatch, useSelector } from "react-redux";
+import { FaBars } from "react-icons/fa6";
+import { IoSearch } from "react-icons/io5";
 import { AiOutlineSend } from "react-icons/ai";
 import { activeUser } from "../../features/activeUser/activeUserSlice";
 import { ToastContainer, toast } from "react-toastify";
+import { Sidebar } from "../../components";
+import { Image } from "../../utils";
 
 const Messages = () => {
   const [friendList, setFriendList] = useState();
@@ -167,7 +167,7 @@ const Messages = () => {
             />
           </div>
         </div>
-        <div className="w-full h-[580px] flex gap-5">
+        <div className="lg:w-full h-[580px] flex gap-5">
           <div className="w-[30%] bg-[#2222220d] px-4 rounded-t-xl ">
             <div className="mt-5">
               <h2 className="text-primary font-semibold font-robotoFlex text-[35px] leading-[140%]">

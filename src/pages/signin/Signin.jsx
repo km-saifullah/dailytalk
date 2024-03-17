@@ -10,6 +10,7 @@ import { auth } from "../../db/firebaseConfig";
 import { ToastContainer, toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { loginuser } from "../../features/user/userSlice";
+import { Error } from "../../utils";
 
 const Signin = () => {
   const navigate = useNavigate();

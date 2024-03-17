@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
-import Sidebar from "../../components/sidebar/Sidebar";
-import { FaBars } from "react-icons/fa6";
-import Image from "../../utils/Image";
-import { IoSearch } from "react-icons/io5";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { onValue, ref, remove } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
+import { Sidebar } from "../../components";
+import { FaBars } from "react-icons/fa6";
+import { Image } from "../../utils";
+import { IoSearch } from "react-icons/io5";
+import { BsThreeDotsVertical } from "react-icons/bs";
 import { ToastContainer, toast } from "react-toastify";
 
 const BlockList = () => {
@@ -101,7 +101,7 @@ const BlockList = () => {
         <section className="bg-[#2222220d] w-[100%] h-[650px] pl-[44px] py-[10px] pr-[14px] rounded-t-[20px] overflow-scroll no-scrollbar">
           <div className="flex items-center justify-between">
             <h1 className="text-primary font-semibold font-robotoFlex text-[35px] leading-[140%]">
-              Friends
+              Block List
             </h1>
             <div>
               <BsThreeDotsVertical />

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import Image from "../../utils/Image";
 import { useSelector } from "react-redux";
 import { onValue, push, ref, remove, set } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
 import { Hourglass } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
+import { Image } from "../../utils";
 
 const UserItem = ({ status }) => {
   const data = useSelector((state) => state.loginuserdata.value);

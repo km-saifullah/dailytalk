@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import Sidebar from "../../components/sidebar/Sidebar";
-import { FaBars } from "react-icons/fa";
-import Image from "../../utils/Image";
-import { IoSearch } from "react-icons/io5";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { useSelector } from "react-redux";
 import { db } from "../../db/firebaseConfig";
 import { onValue, push, ref, remove, set } from "firebase/database";
+import { ToastContainer, toast } from "react-toastify";
+import { FaBars } from "react-icons/fa";
+import { IoSearch } from "react-icons/io5";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { Sidebar } from "../../components";
+import { Image } from "../../utils";
 
 const People = () => {
   const [friendList, setFriendList] = useState();

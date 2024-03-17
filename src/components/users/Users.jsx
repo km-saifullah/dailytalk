@@ -2,7 +2,7 @@ import React from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import UserItem from "./UserItem";
 
-const Chats = () => {
+const Users = () => {
   return (
     <section className="bg-[#2222220d] w-[50%] h-[580px] pl-[44px] py-[10px] pr-[14px] rounded-t-[20px] overflow-scroll no-scrollbar">
       <div className="flex items-center justify-between">
@@ -18,4 +18,4 @@ const Chats = () => {
   );
 };
 
-export default Chats;
+export default Users;

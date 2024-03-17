@@ -5,19 +5,19 @@ import {
   createRoutesFromElements,
   Route,
 } from "react-router-dom";
-import NotFound from "./pages/notfound/NotFound";
 import MainLayout from "./layout/MainLayout";
-import Signin from "./pages/signin/Signin";
-import Signup from "./pages/signup/Signup";
-import Home from "./pages/home/Home";
-import Messages from "./pages/messages/Messages";
-import People from "./pages/people/People";
-import Notification from "./pages/notification/Notification";
-import Settings from "./pages/settings/Settings";
-import BlockList from "./pages/blocklist/BlockList";
-import FriendRequest from "./pages/friendrequest/FriendRequest";
-import Friends from "./pages/friends/Friends";
-import Groups from "./pages/groups/Groups";
+import NotFound from "./pages";
+import Signin from "./pages";
+import Signup from "./pages";
+import Home from "./pages";
+import Messages from "./pages";
+import People from "./pages";
+import Notification from "./pages";
+import Settings from "./pages";
+import BlockList from "./pages";
+import FriendRequest from "./pages";
+import Friends from "./pages";
+import Groups from "./pages";
 
 // All Routes
 const router = createBrowserRouter(

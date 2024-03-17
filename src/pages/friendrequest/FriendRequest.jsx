@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from "react";
-import { FaBars } from "react-icons/fa6";
-import { IoSearch } from "react-icons/io5";
-import { useSelector } from "react-redux";
-import Sidebar from "../../components/sidebar/Sidebar";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { onValue, push, ref, remove, set } from "firebase/database";
 import { db } from "../../db/firebaseConfig";
+import { useSelector } from "react-redux";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { FaBars } from "react-icons/fa6";
+import { IoSearch } from "react-icons/io5";
 import { Hourglass } from "react-loader-spinner";
 import { ToastContainer, toast } from "react-toastify";
-import Image from "../../utils/Image";
+import { Sidebar } from "../../components";
+import { Image } from "../../utils";
 
 const FriendRequest = () => {
   const [friendList, setFriendList] = useState();

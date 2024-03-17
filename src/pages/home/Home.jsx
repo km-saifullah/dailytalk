@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { FaBars } from "react-icons/fa6";
-import { IoSearch } from "react-icons/io5";
-import Image from "../../utils/Image";
-import Chats from "../../components/chats/Chats";
-import Users from "../../components/users/Users";
-import Sidebar from "../../components/sidebar/Sidebar";
 import { useSelector } from "react-redux";
 import { Link, redirect, useNavigate } from "react-router-dom";
+import { FaBars } from "react-icons/fa6";
+import { IoSearch } from "react-icons/io5";
+import { Chats, Sidebar, Users } from "../../components";
+import { Image } from "../../utils";
 
 const Home = () => {
   const data = useSelector((state) => state.loginuserdata.value);

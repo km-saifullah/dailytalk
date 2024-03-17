@@ -1,10 +1,9 @@
-import React, { StrictMode, useEffect, useState } from "react";
-import { FaBars } from "react-icons/fa6";
-import { Link } from "react-router-dom";
-import Sidebar from "../../components/sidebar/Sidebar";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
-import Image from "../../utils/Image";
-import FriendsChart from "../../utils/FriendsChart";
+import { Link } from "react-router-dom";
+import { FaBars } from "react-icons/fa6";
+import { Sidebar } from "../../components";
+import { FriendsChart, Image } from "../../utils";
 
 const Settings = () => {
   const data = useSelector((state) => state.loginuserdata.value);
